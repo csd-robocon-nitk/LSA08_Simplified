@@ -2,20 +2,30 @@
 # Datatypes (KEYWORD1)
 #######################################
 
-LSA08       KEYWORD1
-lsa08_mode  KEYWORD1
+LSA08               KEYWORD1
+lsa08_mode          KEYWORD1
+uart_mode           KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)
 #######################################
 
-LSA08       KEYWORD2
+LSA08                   KEYWORD2
+disable_stream          KEYWORD2
+enable_stream           KEYWORD2
+set_uart_mode           KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
 #######################################
 
-LSA08_MODE_ANALOG   LITERAL1
-LSA08_MODE_DIGITAL  LITERAL1
-LSA08_MODE_SERIAL   LITERAL1
-MODE_ERROR          LITERAL1
+SYS_OK                  LITERAL1
+MODE_ERROR              LITERAL1
+BAD_PACKET              LITERAL1
+LSA08_MODE_ANALOG       LITERAL1
+LSA08_MODE_DIGITAL      LITERAL1
+LSA08_MODE_SERIAL       LITERAL1
+UART_MODE_NONE          LITERAL1
+UART_MODE_DIGITAL       LITERAL1
+UART_MODE_ANALOG        LITERAL1
+UART_MODE_RAW           LITERAL1
