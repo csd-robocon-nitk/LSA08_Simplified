@@ -117,6 +117,8 @@ unsigned int LSA08::read_line()
     {
         return analogRead(pin);
     }
+    else
+        return 0;
 }
 
 unsigned char LSA08::send_packet(unsigned char command, unsigned char value, com_type type)
@@ -177,5 +179,9 @@ unsigned char LSA08::get_response(com_type type)
         {
             return BAD_PACKET;
         }
+    }
+    else
+    {
+        return 0;
     }
 }
