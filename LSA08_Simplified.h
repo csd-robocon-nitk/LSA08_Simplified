@@ -1,15 +1,16 @@
 /**
  * Header for LSA08_Simplified library
  * Developed by CSD Robocon NITK
- * 
+ *
  * This is free software. You can redistribute it and/or modify it under
  * the terms of MIT Licence.
  * To view a copy of this license, visit http://opensource.org/licenses/mit-license.php
- * 
+ *
  * version: 1.0.0
  */
 
-#include<Arduino.h>
+#include <Arduino.h>
+#include <SoftwareSerial.h>
 
 #define MODE_ERROR -1
 #define BAD_PACKET 1
@@ -19,7 +20,8 @@ typedef enum
 {
     LSA08_MODE_ANALOG,
     LSA08_MODE_DIGITAL,
-    LSA08_MODE_SERIAL
+    LSA08_MODE_SERIAL,
+    LSA08_MODE_SOFT_SERIAL
 } lsa08_mode;
 
 typedef enum
@@ -32,6 +34,12 @@ typedef enum
 
 typedef enum
 {
+    DARK_LINE,
+    LIGHT_LINE
+} line_mode;
+
+typedef enum
+{
     COM_TYPE_COMMAND,
     COM_TYPE_DATA
 } com_type;
@@ -39,17 +47,24 @@ typedef enum
 class LSA08
 {
 private:
-    uint8_t pin;
-    uint8_t addr;
-    HardwareSerial *port;
     lsa08_mode mode;
+    unsigned int pin;
+    unsigned int addr;
+    HardwareSerial *port;
+    SoftwareSerial *soft_port;
     unsigned char send_packet(unsigned char command, unsigned char value, com_type type);
     unsigned char get_data();
     unsigned char get_response(com_type type);
+
 public:
-    LSA08(lsa08_mode mode, uint8_t pin);
-    LSA08(lsa08_mode mode, HardwareSerial *port, int baudrate, uint8_t addr, uint8_t en_pin);
-    int8_t disable_stream();
-    int8_t enable_stream();
-    int8_t set_uart_mode(uart_mode mode);
+    LSA08(unsigned int pin);
+    LSA08(HardwareSerial *port, int baudrate, unsigned int addr, unsigned int en_pin);
+    LSA08(SoftwareSerial *port, int baudrate, unsigned int addr, unsigned int en_pin);
+    int disable_stream();
+    int enable_stream();
+    int set_uart_mode(uart_mode mode);
+    int calibrate();
+    int set_line_mode(line_mode mode);
+    int set_threshold(unsigned int threshold);
+    unsigned int read_line();
 };

@@ -14,6 +14,10 @@ LSA08                   KEYWORD2
 disable_stream          KEYWORD2
 enable_stream           KEYWORD2
 set_uart_mode           KEYWORD2
+calibrate               KEYWORD2
+set_line_mode           KEYWORD2
+set_threshold           KEYWORD2
+read_line               KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
