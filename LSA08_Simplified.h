@@ -50,6 +50,7 @@ private:
     lsa08_mode mode;
     unsigned int pin;
     unsigned int addr;
+    unsigned int baudrate;
     HardwareSerial *port;
     SoftwareSerial *soft_port;
     unsigned char send_packet(unsigned char command, unsigned char value, com_type type);
@@ -60,6 +61,7 @@ public:
     LSA08(unsigned int pin);
     LSA08(HardwareSerial *port, int baudrate, unsigned int addr, unsigned int en_pin);
     LSA08(SoftwareSerial *port, int baudrate, unsigned int addr, unsigned int en_pin);
+    void init();
     int disable_stream();
     int enable_stream();
     int set_uart_mode(uart_mode mode);

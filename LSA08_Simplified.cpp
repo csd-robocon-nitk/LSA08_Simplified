@@ -22,10 +22,8 @@ LSA08::LSA08(HardwareSerial *port, int baudrate, unsigned int addr, unsigned int
     this->mode = LSA08_MODE_SERIAL;
     this->port = port;
     this->addr = addr;
-    pin = en_pin;
-    pinMode(pin, OUTPUT);
-    digitalWrite(pin, HIGH);
-    this->port->begin(baudrate);
+    this->pin = en_pin;
+    this->baudrate = baudrate;
 }
 
 LSA08::LSA08(SoftwareSerial *port, int baudrate, unsigned int addr, unsigned int en_pin)
@@ -33,10 +31,17 @@ LSA08::LSA08(SoftwareSerial *port, int baudrate, unsigned int addr, unsigned int
     this->mode = LSA08_MODE_SOFT_SERIAL;
     this->soft_port = port;
     this->addr = addr;
-    pin = en_pin;
-    pinMode(pin, OUTPUT);
-    digitalWrite(pin, HIGH);
-    this->soft_port->begin(9600);
+    this->pin = en_pin;
+}
+
+void LSA08::init()
+{
+    pinMode(this->pin, OUTPUT);
+    digitalWrite(this->pin, HIGH);
+    if(this->mode == LSA08_MODE_SERIAL)
+        this->port->begin(baudrate);
+    else if (this->mode == LSA08_MODE_SOFT_SERIAL)
+	    this->soft_port->begin(9600);
 }
 
 int LSA08::disable_stream()
@@ -45,7 +50,7 @@ int LSA08::disable_stream()
     {
         return MODE_ERROR;
     }
-    digitalWrite(pin, HIGH);
+    digitalWrite(this->pin, HIGH);
     return SYS_OK;
 }
 
@@ -55,7 +60,7 @@ int LSA08::enable_stream()
     {
         return MODE_ERROR;
     }
-    digitalWrite(pin, LOW);
+    digitalWrite(this->pin, LOW);
     return SYS_OK;
 }
 
@@ -87,7 +92,7 @@ int LSA08::set_line_mode(line_mode mode)
     {
         return MODE_ERROR;
     }
-    if (mode > 1 && mode < 0)
+    if (mode != LIGHT_LINE && mode != DARK_LINE)
     {
         return BAD_PACKET;
     }
@@ -96,7 +101,7 @@ int LSA08::set_line_mode(line_mode mode)
 
 int LSA08::set_threshold(unsigned int threshold)
 {
-    if (mode != LSA08_MODE_SERIAL && mode != LSA08_MODE_SOFT_SERIAL)
+    if (this->mode != LSA08_MODE_SERIAL && this->mode != LSA08_MODE_SOFT_SERIAL)
     {
         return MODE_ERROR;
     }
@@ -109,11 +114,11 @@ int LSA08::set_threshold(unsigned int threshold)
 
 unsigned int LSA08::read_line()
 {
-    if (mode == LSA08_MODE_SERIAL || mode == LSA08_MODE_SOFT_SERIAL)
+    if (this->mode == LSA08_MODE_SERIAL || this->mode == LSA08_MODE_SOFT_SERIAL)
     {
         return get_data();
     }
-    else if (mode == LSA08_MODE_ANALOG)
+    else if (this->mode == LSA08_MODE_ANALOG)
     {
         return analogRead(pin);
     }

@@ -35,6 +35,9 @@ LSA08 sensor = LSA08(&mySerial, 9600, 1, 4);
 void setup() {
   Serial.begin(9600);
 
+  // Initialize the sensor
+  sensor.init();
+
   // Disable the line position data coming from the LSA08
   sensor.disable_stream();
 
