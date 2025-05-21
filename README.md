@@ -1,6 +1,6 @@
 # LSA08_Simplified
 
-![v1.1.0](https://img.shields.io/badge/Version-1.0.0-blue)
+![v1.2.0](https://img.shields.io/badge/Version-1.2.0-blue)
 ![Library CI](https://github.com/csd-robocon-nitk/LSA08_Simplified/actions/workflows/libraryci.yml/badge.svg)
 
 An easy to use Arduino library for interfacing LSA08 line sensor.
